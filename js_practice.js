@@ -45,12 +45,12 @@ var createCounter = function (init) {
   };
 };
 
-const counter = createCounter(5);
-const a = counter.increment(); // 6
-const b = counter.reset(); // 5
-const c = counter.decrement(); // 4
+// const counter = createCounter(5);
+// const a = counter.increment(); // 6
+// const b = counter.reset(); // 5
+// const c = counter.decrement(); // 4
 
-console.log(a, b, c);
+// console.log(a, b, c);
 
 /**
  * @param {number[]} arr
@@ -118,3 +118,13 @@ var compose = function (functions) {
     return result;
   };
 };
+
+/**
+ * @param {...(null|boolean|number|string|Array|Object)} args
+ * @return {number}
+ */
+var argumentsLength = function (...args) {
+  return args.length;
+};
+
+// console.log(argumentsLength(1, 2, 3));
