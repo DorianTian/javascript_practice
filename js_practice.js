@@ -101,3 +101,20 @@ var reduce = function (nums, fn, init) {
 
   return result;
 };
+
+/**
+ * @param {Function[]} functions
+ * @return {Function}
+ */
+var compose = function (functions) {
+  const len = functions.length;
+
+  return function (x) {
+    let result = x;
+    for (let i = len - 1; i >= 0; i--) {
+      result = functions[i](result);
+    }
+
+    return result;
+  };
+};
