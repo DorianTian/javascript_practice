@@ -84,3 +84,20 @@ var filter = function (arr, fn) {
 
   return result;
 };
+
+/**
+ * @param {number[]} nums
+ * @param {Function} fn
+ * @param {number} init
+ * @return {number}
+ */
+var reduce = function (nums, fn, init) {
+  let result = init;
+  let index = 0;
+
+  while (index < nums.length) {
+    result = fn(result, nums[index++]);
+  }
+
+  return result;
+};
