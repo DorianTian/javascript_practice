@@ -57,11 +57,29 @@ console.log(a, b, c);
  * @param {Function} fn
  * @return {number[]}
  */
-var map = function(arr, fn) {
+var map = function (arr, fn) {
   const result = [];
 
   for (let i = 0; i < arr.length; i++) {
     result.push(fn(arr[i], i));
+  }
+
+  return result;
+};
+
+/**
+ * @param {number[]} arr
+ * @param {Function} fn
+ * @return {number[]}
+ */
+var filter = function (arr, fn) {
+  const result = [];
+  let index = 0;
+
+  for (let i = 0; i < arr.length; i++) {
+    if (fn(arr[i], i)) {
+      result[index++] = arr[i];
+    }
   }
 
   return result;
