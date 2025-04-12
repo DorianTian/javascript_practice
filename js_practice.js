@@ -184,3 +184,27 @@ var addTwoPromises = async function (promise1, promise2) {
 async function sleep(millis) {
   return new Promise((resolve) => setTimeout(resolve, millis));
 }
+
+/**
+ * @param {Function} fn
+ * @param {Array} args
+ * @param {number} t
+ * @return {Function}
+ */
+var cancellable = function (fn, args, t) {
+  let timeoutId;
+  let cancelled = false;
+
+  const cancelFn = () => {
+    cancelled = true;
+  };
+
+  timeoutId = setTimeout(() => {
+    if (!cancelled) {
+      const result = fn(...args);
+      return result;
+    }
+  }, t);
+
+  return cancelFn;
+};
