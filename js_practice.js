@@ -356,3 +356,28 @@ var promiseAll = function (functions) {
     });
   });
 };
+
+/**
+ * @param {Object|Array} obj
+ * @return {boolean}
+ */
+var isEmpty = function (obj) {
+  return Object.keys(obj).length === 0;
+};
+
+/**
+ * @param {Array} arr
+ * @param {number} size
+ * @return {Array}
+ */
+var chunk = function (arr, size) {
+  const result = [];
+  let index = 0;
+
+  while (index < arr.length) {
+    result.push(arr.slice(index, index + size));
+    index += size;
+  }
+
+  return result;
+};
