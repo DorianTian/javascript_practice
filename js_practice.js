@@ -176,3 +176,11 @@ function memoize(fn) {
 var addTwoPromises = async function (promise1, promise2) {
   return Promise.all([promise1, promise2]).then(([a, b]) => a + b);
 };
+
+/**
+ * @param {number} millis
+ * @return {Promise}
+ */
+async function sleep(millis) {
+  return new Promise((resolve) => setTimeout(resolve, millis));
+}
