@@ -208,3 +208,24 @@ var cancellable = function (fn, args, t) {
 
   return cancelFn;
 };
+
+/**
+ * @param {Function} fn
+ * @param {Array} args
+ * @param {number} t
+ * @return {Function}
+ */
+var cancellable = function (fn, args, t) {
+  let timer;
+
+  const cancelFn = () => {
+    clearInterval(timer);
+  };
+
+  fn(...args);
+  timer = setInterval(() => {
+    return fn(...args);
+  }, t);
+
+  return cancelFn;
+};
