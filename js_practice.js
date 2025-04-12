@@ -466,3 +466,28 @@ var flat = function (arr, n) {
 
   return result;
 };
+
+/**
+ * @param {Object|Array} obj
+ * @return {Object|Array}
+ */
+var compactObject = function (obj) {
+  if (typeof obj !== 'object' || obj === null) return obj;
+
+  if (Array.isArray(obj)) {
+    return obj.filter(Boolean).map(compactObject);
+  }
+
+  if (typeof obj === 'object') {
+    const result = {};
+
+    for (const key in obj) {
+      const value = compactObject(obj[key]);
+      if (value) {
+        result[key] = value;
+      }
+    }
+
+    return result;
+  }
+};
