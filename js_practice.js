@@ -128,3 +128,23 @@ var argumentsLength = function (...args) {
 };
 
 // console.log(argumentsLength(1, 2, 3));
+
+/**
+ * @param {Function} fn
+ * @return {Function}
+ */
+var once = function (fn) {
+  let called = false;
+  let result;
+  return function (...args) {
+    if (!called) {
+      called = true;
+      result = fn(...args);
+      fn = null;
+
+      return result;
+    }
+
+    return undefined;
+  };
+};
