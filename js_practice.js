@@ -437,3 +437,32 @@ var join = function (arr1, arr2) {
 
   return Object.values(result);
 };
+
+/**
+ * @param {Array} arr
+ * @param {number} depth
+ * @return {Array}
+ */
+var flat = function (arr, n) {
+  if (n === 0) return arr;
+  const result = [];
+
+  const dfs = (arr, depth) => {
+    if (depth > n) {
+      result.push(arr);
+      return;
+    }
+
+    for (let i = 0; i < arr.length; i++) {
+      if (Array.isArray(arr[i])) {
+        dfs(arr[i], depth + 1);
+      } else {
+        result.push(arr[i]);
+      }
+    }
+  };
+
+  dfs(arr, 0);
+
+  return result;
+};
