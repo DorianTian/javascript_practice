@@ -389,3 +389,19 @@ Array.prototype.last = function () {
   if (this.length === 0) return -1;
   return this[this.length - 1];
 };
+
+/**
+ * @param {Function} fn
+ * @return {Object}
+ */
+Array.prototype.groupBy = function (fn) {
+  const result = {};
+
+  for (let i = 0; i < this.length; i++) {
+    const key = fn(this[i]);
+    result[key] = result[key] || [];
+    result[key].push(this[i]);
+  }
+
+  return result;
+};
