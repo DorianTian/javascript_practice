@@ -246,3 +246,63 @@ var timeLimit = function (fn, t) {
     return Promise.race([fn(...args), timeout]);
   };
 };
+
+var TimeLimitedCache = function () {
+  this.cache = new Map();
+};
+
+/**
+ * @param {number} key
+ * @param {number} value
+ * @param {number} duration time until expiration in ms
+ * @return {boolean} if un-expired key already existed
+ */
+TimeLimitedCache.prototype.set = function (key, value, duration) {
+  const currentTime = Date.now();
+  let isExist = false;
+
+  if (this.cache.has(key)) {
+    const [_, expireTime] = this.cache.get(key);
+    isExist = currentTime < expireTime;
+  }
+
+  this.cache.set(key, [value, currentTime + duration]);
+  return isExist;
+};
+
+/**
+ * @param {number} key
+ * @return {number} value associated with key
+ */
+TimeLimitedCache.prototype.get = function (key) {
+  if (this.cache.has(key)) {
+    const [value, expireTime] = this.cache.get(key);
+    const currentTime = Date.now();
+
+    if (currentTime < expireTime) {
+      return value;
+    } else {
+      this.cache.delete(key);
+    }
+  }
+
+  return -1;
+};
+
+/**
+ * @return {number} count of non-expired keys
+ */
+TimeLimitedCache.prototype.count = function () {
+  const currentTime = Date.now();
+  let count = 0;
+
+  this.cache.forEach(([_, expireTime], key) => {
+    if (currentTime < expireTime) {
+      count++;
+    } else {
+      this.cache.delete(key);
+    }
+  });
+
+  return count;
+};
