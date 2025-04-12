@@ -325,3 +325,34 @@ var debounce = function (fn, t) {
     }, t);
   };
 };
+
+/**
+ * @param {Array<Function>} functions
+ * @return {Promise<any>}
+ */
+var promiseAll = function (functions) {
+  const result = [];
+  let count = 0;
+  const len = functions.length;
+
+  return new Promise((resolve, reject) => {
+    if (len === 0) {
+      return resolve([]);
+    }
+
+    functions.forEach((fn, index) => {
+      fn()
+        .then((res) => {
+          result[index] = res;
+          count++;
+
+          if (count === len) {
+            resolve(result);
+          }
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  });
+};
