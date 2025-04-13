@@ -491,3 +491,57 @@ var compactObject = function (obj) {
     return result;
   }
 };
+
+class EventEmitter {
+  constructor() {
+    this.events = new Map();
+  }
+
+  /**
+   * @param {string} eventName
+   * @param {Function} callback
+   * @return {Object}
+   */
+  subscribe(eventName, callback) {
+    if (!callback) return;
+
+    if (!this.events.has(eventName)) {
+      this.events.set(eventName, [callback]);
+    } else {
+      this.events.get(eventName).push(callback);
+    }
+
+    return {
+      unsubscribe: () => {
+        const callbacks = this.events.get(eventName);
+        console.log(callbacks, callback);
+        const index = callbacks.indexOf(callback);
+        if (index !== -1) {
+          callbacks.splice(index, 1);
+        }
+      },
+    };
+  }
+
+  /**
+   * @param {string} eventName
+   * @param {Array} args
+   * @return {Array}
+   */
+  emit(eventName, args = []) {
+    if (!this.events.has(eventName)) return [];
+
+    console.log(
+      '-----: ',
+      this.events.get(eventName).map((cb) => cb(...args))
+    );
+    return this.events.get(eventName).map((cb) => cb(...args));
+  }
+}
+
+const emitter = new EventEmitter();
+const sub1 = emitter.subscribe('firstEvent', (x) => x + 1);
+console.log('sub1: ', sub1);
+const sub2 = emitter.subscribe('firstEvent', (x) => x + 2);
+sub2.unsubscribe(); // undefined
+emitter.emit('firstEvent', [5]); // [7]
